@@ -1,13 +1,14 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">Jobstacle</a>
+        <img src="css/logo.png" alt="Logo" style="width: 100px; height: auto;">
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
     </div>
 </div>
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+<div class="NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
@@ -15,13 +16,28 @@
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            <NavLink class="nav-link" href="findjobs">
+                <span class="oi oi-plus" aria-hidden="true"></span> Find Jobs
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            <NavLink class="nav-link" href="browsecompanies">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Browse Companies
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="chats">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Chats
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="courses">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Courses
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="communitycorner">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Community Corner
             </NavLink>
         </div>
     </nav>
