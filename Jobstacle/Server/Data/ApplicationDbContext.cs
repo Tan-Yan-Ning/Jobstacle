@@ -1,4 +1,5 @@
 ﻿using Duende.IdentityServer.EntityFramework.Options;
+using Jobstacle.Server.Configurations.Entities;
 using Jobstacle.Server.Models;
 using Jobstacle.Shared.Domain;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
@@ -23,5 +24,18 @@ namespace Jobstacle.Server.Data
         public DbSet<Job> Jobs { get; set; }
         public DbSet<JobApplication> JobApplications { get; set; }
 
-    }
+		protected override void OnModelCreating(ModelBuilder builder)
+		{
+			base.OnModelCreating(builder);
+
+			builder.ApplyConfiguration(new CompanySeedConfiguration());
+			builder.ApplyConfiguration(new JobSeekerSeedConfiguration());
+			builder.ApplyConfiguration(new OrganizerSeedConfiguration());
+			builder.ApplyConfiguration(new StaffSeedConfiguration());
+			builder.ApplyConfiguration(new RoleSeedConfiguration());
+			builder.ApplyConfiguration(new UserRoleSeedConfiguration());
+			builder.ApplyConfiguration(new UserSeedConfiguration());
+		}
+
+	}
 }
