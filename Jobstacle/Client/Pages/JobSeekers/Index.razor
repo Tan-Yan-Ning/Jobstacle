@@ -1,0 +1,90 @@
+﻿@page "/jobseekers/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@* @inject NavigationManager _navManager
+@inject HttpInterceptorService _interceptor
+@implements IDisposable *@
+
+
+
+<h3>Job Seekers</h3>
+<a href="/jobseekers/create" class="btn btn-secondary">
+	<span class="oi oi-plus"></span>
+	Create New JobSeekers
+</a>
+<br />
+<br />
+
+@if (JobSeekers == null)
+{
+	<div class="alert alert-info">Loading JobSeekers...</div>
+}
+else
+{
+	<table class="table table-responsive">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Gender</th>
+				<th>Resume</th>
+				<th>Location</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var jobseeker in JobSeekers)
+			{
+				<tr>
+					<td>@jobseeker.Name</td>
+					<td>@jobseeker.Email</td>
+					<td>@jobseeker.Gender</td>
+					<td>@jobseeker.Resume</td>
+					<td>@jobseeker.Location</td>
+					<td>
+						<a href="/JobSeekers/view/@jobseeker.Id" class="btn btn-primary">
+							<span class="oi oi-book"></span>
+						</a>
+						<a href="/JobSeekers/edit/@jobseeker.Id" class="btn btn-warning">
+							<span class="oi oi-pencil"></span>
+						</a>
+						<button class="btn btn-danger" @onclick="@(()=>Delete(jobseeker.Id))">
+							<span class="oi oi-delete"></span>
+						</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+
+@code {
+	private List<JobSeeker>? JobSeekers;
+
+	protected async override Task OnInitializedAsync()
+	{
+		// _interceptor.MonitorEvent();
+		JobSeekers = await _client.GetFromJsonAsync<List<JobSeeker>>($" {Endpoints.JobSeekersEndpoint}");
+	}
+	async Task Delete(int jobseekerId)
+	{
+		if (JobSeekers != null)
+		{
+			var jobseeker = JobSeekers.First(q => q.Id == jobseekerId);
+			var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {jobseeker.Name}?");
+
+			if (confirm)
+			{
+				await _client.DeleteAsync($"{Endpoints.JobSeekersEndpoint}/{jobseekerId}");
+				await OnInitializedAsync();
+			}
+		}
+	}
+
+	// public void Dispose()
+	// {
+	// 	_interceptor.DisposeEvent();
+	// }
+}

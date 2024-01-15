@@ -14,50 +14,50 @@ namespace Jobstacle.Server.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class CourseControllersController : ControllerBase
+	public class CoursesController : ControllerBase
 	{
 		//private readonly ApplicationDbContext _context;
 		private readonly IUnitOfWork _unitofWork;
 
-		public CourseControllersController(IUnitOfWork unitofWork)
+		public CoursesController(IUnitOfWork unitofWork)
 		{
 			_unitofWork = unitofWork;
 		}
 
-		// GET: api/CourseControllers
+		// GET: api/Courses
 		[HttpGet]
-		public async Task<IActionResult> GetCourseControllers()
+		public async Task<IActionResult> GetCourses()
 		{
-			var coursecontrollers = await _unitofWork.Courses.GetAll();
-			return Ok(coursecontrollers);
+			var courses = await _unitofWork.Courses.GetAll(includes: q => q.Include(x => x.Organizer).Include(x => x.Staff));
+			return Ok(courses);
 		}
 
-		// GET: api/CourseControllers/5
+		// GET: api/Courses/5
 		[HttpGet("{id}")]
-		public async Task<IActionResult> GetCourseController(int id)
+		public async Task<IActionResult> GetCourse(int id)
 		{
-			var coursecontroller = await _unitofWork.Courses.Get(q => q.Id == id);
+			var course = await _unitofWork.Courses.Get(q => q.Id == id);
 
-			if (coursecontroller == null)
+			if (course == null)
 			{
 				return NotFound();
 			}
 
-			return Ok(coursecontroller);
+			return Ok(course);
 
 		}
 
-		// PUT: api/CourseControllers/5
+		// PUT: api/Courses/5
 		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 		[HttpPut("{id}")]
-		public async Task<IActionResult> PutCourseController(int id, Course coursecontroller)
+		public async Task<IActionResult> PutCourse(int id, Course course)
 		{
-			if (id != coursecontroller.Id)
+			if (id != course.Id)
 			{
 				return BadRequest();
 			}
 
-			_unitofWork.Courses.Update(coursecontroller);
+			_unitofWork.Courses.Update(course);
 
 			try
 			{
@@ -65,7 +65,7 @@ namespace Jobstacle.Server.Controllers
 			}
 			catch (DbUpdateConcurrencyException)
 			{
-				if (!await CourseControllerExists(id))
+				if (!await CourseExists(id))
 				{
 					return NotFound();
 				}
@@ -78,23 +78,23 @@ namespace Jobstacle.Server.Controllers
 			return NoContent();
 		}
 
-		// POST: api/CourseControllers
+		// POST: api/Courses
 		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 		[HttpPost]
-		public async Task<ActionResult<Course>> PostCourseController(Course coursecontroller)
+		public async Task<ActionResult<Course>> PostCourse(Course course)
 		{
-			await _unitofWork.Courses.Insert(coursecontroller);
+			await _unitofWork.Courses.Insert(course);
 			await _unitofWork.Save(HttpContext);
 
-			return CreatedAtAction("GetCourseController", new { id = coursecontroller.Id }, coursecontroller);
+			return CreatedAtAction("GetCourse", new { id = course.Id }, course);
 		}
 
-		// DELETE: api/CourseControllers/5
+		// DELETE: api/Courses/5
 		[HttpDelete("{id}")]
-		public async Task<IActionResult> DeleteCourseController(int id)
+		public async Task<IActionResult> DeleteCourse(int id)
 		{
-			var coursecontroller = await _unitofWork.Courses.Get(q => q.Id == id);
-			if (coursecontroller == null)
+			var course = await _unitofWork.Courses.Get(q => q.Id == id);
+			if (course == null)
 			{
 				return NotFound();
 			}
@@ -105,10 +105,10 @@ namespace Jobstacle.Server.Controllers
 			return NoContent();
 		}
 
-		private async Task<bool> CourseControllerExists(int id)
+		private async Task<bool> CourseExists(int id)
 		{
-			var coursecontroller = await _unitofWork.Courses.Get(q => q.Id == id);
-			return coursecontroller != null;
+			var course = await _unitofWork.Courses.Get(q => q.Id == id);
+			return course != null;
 		}
 	}
 }

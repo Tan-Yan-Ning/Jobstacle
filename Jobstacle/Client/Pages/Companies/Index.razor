@@ -1,0 +1,88 @@
+﻿@page "/companies/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@* @inject NavigationManager _navManager
+@inject HttpInterceptorService _interceptor
+@implements IDisposable *@
+
+
+
+<h3>Companies</h3>
+<a href="/companys/create" class="btn btn-secondary">
+	<span class="oi oi-plus"></span>
+	Create New Companies
+</a>
+<br />
+<br />
+
+@if (Companies == null)
+{
+	<div class="alert alert-info">Loading Companies...</div>
+}
+else
+{
+	<table class="table table-responsive">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Contact Number</th>
+				<th>Email</th>
+				<th>Description</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var company in Companies)
+			{
+				<tr>
+					<td>@company.Name</td>
+					<td>@company.ContactNumber</td>
+					<td>@company.Email</td>
+					<td>@company.Description</td>
+					<td>
+						<a href="/Companies/view/@company.Id" class="btn btn-primary">
+							<span class="oi oi-book"></span>
+						</a>
+						<a href="/Companies/edit/@company.Id" class="btn btn-warning">
+							<span class="oi oi-pencil"></span>
+						</a>
+						<button class="btn btn-danger" @onclick="@(()=>Delete(company.Id))">
+							<span class="oi oi-delete"></span>
+						</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+
+@code {
+	private List<Company>? Companies;
+
+	protected async override Task OnInitializedAsync()
+	{
+		// _interceptor.MonitorEvent();
+		Companies = await _client.GetFromJsonAsync<List<Company>>($" {Endpoints.CompaniesEndpoint}");
+	}
+	async Task Delete(int companyId)
+	{
+		if (Companies != null)
+		{
+			var company = Companies.First(q => q.Id == companyId);
+			var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {company.Name}?");
+
+			if (confirm)
+			{
+				await _client.DeleteAsync($"{Endpoints.CompaniesEndpoint}/{companyId}");
+				await OnInitializedAsync();
+			}
+		}
+	}
+
+	// public void Dispose()
+	// {
+	// 	_interceptor.DisposeEvent();
+	// }
+}

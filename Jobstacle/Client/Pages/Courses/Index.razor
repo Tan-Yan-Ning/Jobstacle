@@ -1,0 +1,90 @@
+﻿@page "/courses/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@* @inject NavigationManager _navManager
+@inject HttpInterceptorService _interceptor
+@implements IDisposable *@
+
+
+
+<h3>Courses</h3>
+<a href="/courses/create" class="btn btn-secondary">
+	<span class="oi oi-plus"></span>
+	Create New Courses
+</a>
+<br />
+<br />
+
+@if (Courses == null)
+{
+	<div class="alert alert-info">Loading Courses...</div>
+}
+else
+{
+	<table class="table table-responsive">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Description</th>
+				<th>Location</th>
+				<th>Organizer</th>
+				<th>Staff</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var course in Courses)
+			{
+				<tr>
+					<td>@course.Title</td>
+					<td>@course.Description</td>
+					<td>@course.Location</td>
+					<td>@course.Organizer.Name</td>
+					<td>@course.Staff.Name</td>
+					<td>
+						<a href="/Courses/view/@course.Id" class="btn btn-primary">
+							<span class="oi oi-book"></span>
+						</a>
+						<a href="/Courses/edit/@course.Id" class="btn btn-warning">
+							<span class="oi oi-pencil"></span>
+						</a>
+						<button class="btn btn-danger" @onclick="@(()=>Delete(course.Id))">
+							<span class="oi oi-delete"></span>
+						</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+
+@code {
+	private List<Course>? Courses;
+
+	protected async override Task OnInitializedAsync()
+	{
+		// _interceptor.MonitorEvent();
+		Courses = await _client.GetFromJsonAsync<List<Course>>($" {Endpoints.CoursesEndpoint}");
+	}
+	async Task Delete(int courseId)
+	{
+		if (Courses != null)
+		{
+			var course = Courses.First(q => q.Id == courseId);
+			var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {course.Title}?");
+
+			if (confirm)
+			{
+				await _client.DeleteAsync($"{Endpoints.CoursesEndpoint}/{courseId}");
+				await OnInitializedAsync();
+			}
+		}
+	}
+
+	// public void Dispose()
+	// {
+	// 	_interceptor.DisposeEvent();
+	// }
+}

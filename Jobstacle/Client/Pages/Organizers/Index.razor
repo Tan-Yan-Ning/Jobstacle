@@ -1,0 +1,88 @@
+﻿@page  "/organizers/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@* @inject navigationmanager _navmanager
+@inject httpinterceptorservice _interceptor
+@implements IDisposable *@
+
+
+
+<h3>Organizers</h3>
+<a href="/organizers/create" class="btn btn-secondary">
+	<span class="oi oi-plus"></span>
+	Create New Organizers
+</a>
+<br />
+<br />
+
+@if (Organizers == null)
+{
+	<div class="alert alert-info">Loading Organizers...</div>
+}
+else
+{
+	<table class="table table-responsive">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>ContactNumber</th>
+				<th>Email</th>
+				<th>Description</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var organizer in Organizers)
+			{
+			<tr>
+				<td>@organizer.Name</td>
+				<td>@organizer.ContactNumber</td>
+				<td>@organizer.Email</td>
+				<td>@organizer.Description</td>
+				<td>
+					<a href="/Organizers/view/@organizer.Id" class="btn btn-primary">
+						<span class="oi oi-book"></span>
+					</a>
+					<a href="/Organizers/edit/@organizer.Id" class="btn btn-warning">
+						<span class="oi oi-pencil"></span>
+					</a>
+					<button class="btn btn-danger" @onclick="@(()=>Delete(organizer.Id))">
+						<span class="oi oi-delete"></span>
+					</button>
+				</td>
+			</tr>
+			}
+		</tbody>
+	</table>
+}
+	
+
+@code {
+	private List<Organizer>? Organizers;
+
+	protected async override Task OnInitializedAsync()
+	{
+		// _interceptor.MonitorEvent();
+		Organizers = await _client.GetFromJsonAsync<List<Organizer>>($" {Endpoints.OrganizersEndpoint}");
+	}
+	async Task Delete(int organizerId)
+	{
+		if (Organizers != null)
+		{
+			var organizer = Organizers.First(q => q.Id == organizerId);
+			var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {organizer.Name}?");
+
+			if (confirm)
+			{
+				await _client.DeleteAsync($"{Endpoints.OrganizersEndpoint}/{organizerId}");
+				await OnInitializedAsync();
+			}
+		}
+	}
+
+	// public void Dispose()
+	// {
+	// 	_interceptor.DisposeEvent(); 
+	// }
+}

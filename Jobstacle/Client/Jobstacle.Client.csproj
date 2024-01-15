@@ -22,17 +22,6 @@
     <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\Companies\" />
-    <Folder Include="Pages\Courses\" />
-    <Folder Include="Pages\CourseRegistrations\" />
-    <Folder Include="Pages\Jobs\" />
-    <Folder Include="Pages\JobApplications\" />
-    <Folder Include="Pages\JobSeekers\" />
-    <Folder Include="Pages\Staffs\" />
-    <Folder Include="Pages\Organizers\" />
-  </ItemGroup>
-
 </Project>
 
 

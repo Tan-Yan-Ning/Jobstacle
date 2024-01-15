@@ -28,7 +28,7 @@ namespace Jobstacle.Server.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetJobApplications()
 		{
-			var jobapplications = await _unitofWork.JobApplications.GetAll();
+			var jobapplications = await _unitofWork.JobApplications.GetAll(includes: q => q.Include(x => x.Job).Include(x => x.JobSeeker));
 			return Ok(jobapplications);
 		}
 

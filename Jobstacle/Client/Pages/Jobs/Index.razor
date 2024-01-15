@@ -1,0 +1,92 @@
+﻿@page "/jobs/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@* @inject NavigationManager _navManager
+@inject HttpInterceptorService _interceptor
+@implements IDisposable *@
+
+
+
+<h3>Jobs</h3>
+<a href="/jobs/create" class="btn btn-secondary">
+	<span class="oi oi-plus"></span>
+	Create New Jobs
+</a>
+<br />
+<br />
+
+@if (Jobs == null)
+{
+	<div class="alert alert-info">Loading Jobs...</div>
+}
+else
+{
+	<table class="table table-responsive">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Description</th>
+				<th>Location</th>
+				<th>Salary</th>
+				<th>Company</th>
+				<th>Staff</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var job in Jobs)
+			{
+				<tr>
+					<td>@job.Title</td>
+					<td>@job.Description</td>
+					<td>@job.Location</td>
+					<td>@job.Salary</td>
+					<td>@job.Company.Name</td>
+					<td>@job.Staff.Name</td>
+					<td>
+						<a href="/Jobs/view/@job.Id" class="btn btn-primary">
+							<span class="oi oi-book"></span>
+						</a>
+						<a href="/Jobs/edit/@job.Id" class="btn btn-warning">
+							<span class="oi oi-pencil"></span>
+						</a>
+						<button class="btn btn-danger" @onclick="@(()=>Delete(job.Id))">
+							<span class="oi oi-delete"></span>
+						</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+
+@code {
+	private List<Job>? Jobs;
+
+	protected async override Task OnInitializedAsync()
+	{
+		// _interceptor.MonitorEvent();
+		Jobs = await _client.GetFromJsonAsync<List<Job>>($" {Endpoints.JobsEndpoint}");
+	}
+	async Task Delete(int jobId)
+	{
+		if (Jobs != null)
+		{
+			var job = Jobs.First(q => q.Id == jobId);
+			var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {job.Title}?");
+
+			if (confirm)
+			{
+				await _client.DeleteAsync($"{Endpoints.JobsEndpoint}/{jobId}");
+				await OnInitializedAsync();
+			}
+		}
+	}
+
+	// public void Dispose()
+	// {
+	// 	_interceptor.DisposeEvent();
+	// }
+}

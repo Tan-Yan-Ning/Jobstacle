@@ -1,0 +1,86 @@
+﻿@page "/courseregistrations/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@* @inject NavigationManager _navManager
+@inject HttpInterceptorService _interceptor
+@implements IDisposable *@
+
+
+
+<h3>Course Registrations</h3>
+<a href="/courseregistrations/create" class="btn btn-secondary">
+	<span class="oi oi-plus"></span>
+	Create New CourseRegistrations
+</a>
+<br />
+<br />
+
+@if (CourseRegistrations == null)
+{
+	<div class="alert alert-info">Loading CourseRegistrations...</div>
+}
+else
+{
+	<table class="table table-responsive">
+		<thead>
+			<tr>
+				<th>Job Seeker</th>
+				<th>Course</th>
+				<th>Date</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var courseregistration in CourseRegistrations)
+			{
+				<tr>
+					<td>@courseregistration.JobSeeker.Name</td>
+					<td>@courseregistration.Course.Title</td>
+					<td>@courseregistration.RegistrationDate</td>
+					<td>
+						<a href="/CourseRegistrations/view/@courseregistration.Id" class="btn btn-primary">
+							<span class="oi oi-book"></span>
+						</a>
+						<a href="/CourseRegistrations/edit/@courseregistration.Id" class="btn btn-warning">
+							<span class="oi oi-pencil"></span>
+						</a>
+						<button class="btn btn-danger" @onclick="@(()=>Delete(courseregistration.Id))">
+							<span class="oi oi-delete"></span>
+						</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+
+@code {
+	private List<CourseRegistration>? CourseRegistrations;
+
+	protected async override Task OnInitializedAsync()
+	{
+		// _interceptor.MonitorEvent();
+		CourseRegistrations = await _client.GetFromJsonAsync<List<CourseRegistration>>($" {Endpoints.CourseRegistrationsEndpoint}");
+	}
+	async Task Delete(int courseregistrationId)
+	{
+		if (CourseRegistrations != null)
+		{
+			var courseregistration = CourseRegistrations.First(q => q.Id == courseregistrationId);
+			var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {courseregistration.Id}?");
+
+			if (confirm)
+			{
+				await _client.DeleteAsync($"{Endpoints.CourseRegistrationsEndpoint}/{courseregistrationId}");
+				await OnInitializedAsync();
+			}
+		}
+	}
+
+	// public void Dispose()
+	// {
+	// 	_interceptor.DisposeEvent();
+	// }
+}

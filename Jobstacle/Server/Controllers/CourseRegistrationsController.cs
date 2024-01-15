@@ -28,7 +28,7 @@ namespace Jobstacle.Server.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetCourseRegistrations()
 		{
-			var courseregistrations = await _unitofWork.CourseRegistrations.GetAll();
+			var courseregistrations = await _unitofWork.CourseRegistrations.GetAll(includes: q => q.Include(x => x.JobSeeker).Include(x => x.Course));
 			return Ok(courseregistrations);
 		}
 
