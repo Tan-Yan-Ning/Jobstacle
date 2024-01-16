@@ -1,0 +1,26 @@
+﻿@page "/organizers/edit/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+
+<h3>Edit Organizer</h3>
+
+<FormComponent ButtonText="Update" OnValidSubmit="EditOrganizer" organizer="organizer" />
+
+@code {
+	[Parameter] public int id { get; set; }
+	Organizer? organizer = new Organizer();
+
+	protected async override Task OnParametersSetAsync()
+	{
+		organizer = await _client.GetFromJsonAsync<Organizer>($"{Endpoints.OrganizersEndpoint}/{id}");
+	}
+
+	async Task EditOrganizer()
+	{
+		await _client.PutAsJsonAsync($"{Endpoints.OrganizersEndpoint}/{id}", organizer);
+		_navManager.NavigateTo("/organizers/");
+	}
+
+}
+

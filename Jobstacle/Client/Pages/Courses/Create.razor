@@ -1,0 +1,31 @@
+﻿@page "/courses/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Course</h3>
+<hr />
+<br />
+
+<FormComponent ButtonText="Create Course" course="course" OnValidSubmit="@CreateCourse" />
+
+
+@code {
+    Course course = new Course();
+
+    private IList<Organizer>? Organizers;
+    private IList<Staff>? Staffs;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Organizers = await _client.GetFromJsonAsync<List<Organizer>>($"{Endpoints.OrganizersEndpoint}");
+        Staffs = await _client.GetFromJsonAsync<List<Staff>>($"{Endpoints.StaffsEndpoint}");
+    }
+
+    private async Task CreateCourse()
+    {
+        await _client.PostAsJsonAsync(Endpoints.CoursesEndpoint, course);
+        _navManager.NavigateTo("/courses/");
+    }
+
+}
+

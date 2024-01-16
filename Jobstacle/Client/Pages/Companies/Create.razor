@@ -1,0 +1,22 @@
+﻿@page "/companies/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Company</h3>
+<hr />
+<br />
+
+<FormComponent ButtonText="Create Company" company="company" OnValidSubmit="@CreateCompany" />
+
+
+@code {
+    Company company = new Company();
+
+    private async Task CreateCompany()
+    {
+        await _client.PostAsJsonAsync(Endpoints.CompaniesEndpoint, company);
+        _navManager.NavigateTo("/companies/");
+    }
+
+}
+

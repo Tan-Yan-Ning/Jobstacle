@@ -1,0 +1,97 @@
+﻿@inject HttpClient _client
+
+
+<EditForm Model="@course" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <fieldset disabled="@Disabled" >
+
+    <div class="form-group">
+        <label>Title: </label>
+        <div>
+            <InputText @bind-Value="@course.Title" class="form-control" />
+            <ValidationMessage For="@(() => course.Title)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Description: </label>
+        <div>
+            <InputText @bind-Value="@course.Description" class="form-control" />
+            <ValidationMessage For="@(() => course.Description)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Location: </label>
+        <div>
+            <InputText @bind-Value="@course.Location" class="form-control" />
+            <ValidationMessage For="@(() => course.Location)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Organizer: </label>
+        <div>
+            <InputSelect @bind-Value="course.Organizer.Id" class="form-control">
+                <option value="">-- Select Organizer --</option>
+                @if (Organizers != null)
+                {
+                        foreach (var organizer in Organizers)
+                    {
+                            <option value="@organizer.Id">@organizer.Name</option>
+                    }
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => course.Organizer.Id)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Staff: </label>
+        <div>
+            <InputSelect @bind-Value="course.Staff.Id" class="form-control">
+                <option value="">-- Select Staff --</option>
+                @if (Staffs != null)
+                {
+                    foreach (var customer in Staffs)
+                    {
+                        <option value="@customer.Id">@customer.Name</option>
+                    }
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => course.Staff.Id)" />
+        </div>
+    </div>
+
+
+    <br />
+    </fieldset>
+
+    @if (!Disabled)
+    {
+        <button type="submit" class="btn btn-success btn-block">
+            @ButtonText
+        </button>
+    }
+    <BackToList Target="courses" />
+
+</EditForm>
+
+@code {
+    [Parameter] public bool Disabled { get; set; } = false;
+    [Parameter] public Course? course { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+    private IList<Organizer>? Organizers;
+    private IList<Staff>? Staffs;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Organizers = await _client.GetFromJsonAsync<List<Organizer>>($"{Endpoints.OrganizersEndpoint}");
+        Staffs = await _client.GetFromJsonAsync<List<Staff>>($"{Endpoints.StaffsEndpoint}");
+    }
+
+}

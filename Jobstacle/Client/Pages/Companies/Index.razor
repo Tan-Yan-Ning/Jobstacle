@@ -2,14 +2,14 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
-@* @inject NavigationManager _navManager
+@inject NavigationManager _navManager
 @inject HttpInterceptorService _interceptor
-@implements IDisposable *@
+@implements IDisposable
 
 
 
 <h3>Companies</h3>
-<a href="/companys/create" class="btn btn-secondary">
+<a href="/companies/create" class="btn btn-secondary">
 	<span class="oi oi-plus"></span>
 	Create New Companies
 </a>
@@ -63,7 +63,7 @@ else
 
 	protected async override Task OnInitializedAsync()
 	{
-		// _interceptor.MonitorEvent();
+		_interceptor.MonitorEvent();
 		Companies = await _client.GetFromJsonAsync<List<Company>>($" {Endpoints.CompaniesEndpoint}");
 	}
 	async Task Delete(int companyId)
@@ -81,8 +81,8 @@ else
 		}
 	}
 
-	// public void Dispose()
-	// {
-	// 	_interceptor.DisposeEvent();
-	// }
+	public void Dispose()
+	{
+		_interceptor.DisposeEvent();
+	}
 }

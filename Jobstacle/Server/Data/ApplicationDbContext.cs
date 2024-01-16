@@ -15,6 +15,7 @@ namespace Jobstacle.Server.Data
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
+
         public DbSet<JobSeeker> JobSeekers { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<CourseRegistration> CoursesRegistrations { get; set;}

@@ -2,9 +2,9 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
-@* @inject NavigationManager _navManager
+@inject NavigationManager _navManager
 @inject HttpInterceptorService _interceptor
-@implements IDisposable *@
+@implements IDisposable
 
 
 
@@ -61,7 +61,7 @@ else
 
 	protected async override Task OnInitializedAsync()
 	{
-		// _interceptor.MonitorEvent();
+		_interceptor.MonitorEvent();
 		CourseRegistrations = await _client.GetFromJsonAsync<List<CourseRegistration>>($" {Endpoints.CourseRegistrationsEndpoint}");
 	}
 	async Task Delete(int courseregistrationId)
@@ -79,8 +79,8 @@ else
 		}
 	}
 
-	// public void Dispose()
-	// {
-	// 	_interceptor.DisposeEvent();
-	// }
+	public void Dispose()
+	{
+		_interceptor.DisposeEvent();
+	}
 }

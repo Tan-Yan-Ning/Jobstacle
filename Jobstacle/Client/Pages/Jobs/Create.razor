@@ -1,0 +1,31 @@
+﻿@page "/jobs/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Job</h3>
+<hr />
+<br />
+
+<FormComponent ButtonText="Create Job" job="job" OnValidSubmit="@CreateJob" />
+
+
+@code {
+    Job job = new Job();
+
+    private IList<Company>? Companies;
+    private IList<Staff>? Staffs;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Companies = await _client.GetFromJsonAsync<List<Company>>($"{Endpoints.CompaniesEndpoint}");
+        Staffs = await _client.GetFromJsonAsync<List<Staff>>($"{Endpoints.StaffsEndpoint}");
+    }
+
+    private async Task CreateJob()
+    {
+        await _client.PostAsJsonAsync(Endpoints.JobsEndpoint, job);
+        _navManager.NavigateTo("/jobs/");
+    }
+
+}
+

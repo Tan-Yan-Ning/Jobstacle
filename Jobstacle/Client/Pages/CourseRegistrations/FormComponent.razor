@@ -1,0 +1,81 @@
+﻿@inject HttpClient _client
+
+
+<EditForm Model="@courseregistration" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <fieldset disabled="@Disabled" >
+
+    @* <div class="form-group">
+        <label>Registration Date: </label>
+        <div>
+            <InputText @bind-Value="@courseregistration.RegistrationDate" class="form-control" />
+            <ValidationMessage For="@(() => courseregistration.RegistrationDate)" />
+        </div>
+    </div> *@
+
+    <div class="form-group">
+        <label>JobSeeker: </label>
+        <div>
+            <InputSelect @bind-Value="courseregistration.JobSeeker.Id" class="form-control">
+                <option value="">-- Select JobSeeker --</option>
+                @if (JobSeekers != null)
+                {
+                    foreach (var jobseeker in JobSeekers)
+                    {
+                        <option value="@jobseeker.Id">@jobseeker.Name</option>
+                    }
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => courseregistration.JobSeeker.Id)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Course: </label>
+        <div>
+            <InputSelect @bind-Value="courseregistration.Course.Id" class="form-control">
+                <option value="">-- Select Course --</option>
+                @if (Courses != null)
+                {
+                    foreach (var course in Courses)
+                    {
+                        <option value="@course.Id">@course.Title</option>
+                    }
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => courseregistration.Course.Id)" />
+        </div>
+    </div>
+
+
+    <br />
+    </fieldset>
+
+    @if (!Disabled)
+    {
+        <button type="submit" class="btn btn-success btn-block">
+            @ButtonText
+        </button>
+    }
+    <BackToList Target="courseregistrations" />
+
+</EditForm>
+
+@code {
+    [Parameter] public bool Disabled { get; set; } = false;
+    [Parameter] public CourseRegistration? courseregistration { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+    private IList<JobSeeker>? JobSeekers;
+    private IList<Course>? Courses;
+
+    protected async override Task OnInitializedAsync()
+    {
+        JobSeekers = await _client.GetFromJsonAsync<List<JobSeeker>>($"{Endpoints.JobSeekersEndpoint}");
+        Courses = await _client.GetFromJsonAsync<List<Course>>($"{Endpoints.CoursesEndpoint}");
+    }
+
+}

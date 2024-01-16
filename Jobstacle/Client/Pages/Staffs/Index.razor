@@ -2,9 +2,9 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
-@* @inject NavigationManager _navManager
+@inject NavigationManager _navManager
 @inject HttpInterceptorService _interceptor
-@implements IDisposable *@
+@implements IDisposable 
 
 
 
@@ -83,8 +83,8 @@ else
 		}
 	}
 
-	// public void Dispose()
-	// {
-	// 	_interceptor.DisposeEvent();
-	// }
+	 public void Dispose()
+	 {
+	 	_interceptor.DisposeEvent();
+	 }
 }

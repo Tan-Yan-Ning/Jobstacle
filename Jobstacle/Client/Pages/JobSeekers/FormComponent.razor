@@ -1,0 +1,42 @@
+﻿@inject HttpClient _client
+
+
+<EditForm Model="@jobseeker" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <fieldset disabled="@Disabled" >
+    <div class="form-group">
+        <label>Name: </label>
+        <div>
+            <InputText @bind-Value="jobseeker.Name" class="form-control"/>
+            <ValidationMessage For="@(() => jobseeker.Name)" />
+        </div>
+    </div>
+
+
+
+    
+
+    <br />
+    </fieldset>
+
+    @if (!Disabled)
+    {
+        <button type="submit" class="btn btn-success btn-block">
+            @ButtonText
+        </button>
+    }
+    <BackToList Target="jobseekers" />
+
+</EditForm>
+
+@code {
+    [Parameter] public bool Disabled { get; set; } = false;
+    [Parameter] public JobSeeker? jobseeker { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+  
+
+}

@@ -1,0 +1,16 @@
+﻿@page "/courses/view/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>View Courses</h3>
+<FormComponent course="course" Disabled="true" />
+
+@code {
+	[Parameter] public int id { get; set; }
+	Course? course = new Course();
+	protected async override Task OnParametersSetAsync()
+	{
+		course = await
+		_client.GetFromJsonAsync<Course>($"{Endpoints.CoursesEndpoint}/{id}");
+	}
+}
