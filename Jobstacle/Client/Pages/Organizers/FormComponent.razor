@@ -13,6 +13,27 @@
             <ValidationMessage For="@(() => organizer.Name)" />
         </div>
     </div>
+    <div class="form-group">
+        <label>ContactNumber: </label>
+        <div>
+            <InputText @bind-Value="organizer.ContactNumber" class="form-control" />
+            <ValidationMessage For="@(() => organizer.ContactNumber)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Email: </label>
+        <div>
+            <InputText @bind-Value="organizer.Email" class="form-control" />
+            <ValidationMessage For="@(() => organizer.Email)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Description: </label>
+        <div>
+            <InputText @bind-Value="organizer.Description" class="form-control" />
+            <ValidationMessage For="@(() => organizer.Description)" />
+        </div>
+    </div>
 
 
 
