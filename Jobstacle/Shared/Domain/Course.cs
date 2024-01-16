@@ -12,9 +12,9 @@ namespace Jobstacle.Shared.Domain
         public string? Title { get; set; }
         public string? Description { get; set; }   
         public string? Location { get; set; }       
-        public int OrganizerID { get; set; } 
+        public int? OrganizerID { get; set; } 
         public virtual Organizer? Organizer { get; set; }   
-        public int StaffID { get; set; }
+        public int? StaffID { get; set; }
         public virtual Staff? Staff { get; set; }
         public virtual List<CourseRegistration>? CourseRegistrations { get; set; }
 

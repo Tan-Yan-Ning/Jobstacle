@@ -5,11 +5,40 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
 
+    <div class="form-group">
+        <label>Title: </label>
+        <div>
+            <InputText @bind-Value="job.Title" class="form-control" />
+            <ValidationMessage For="@(() => job.Title)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Description: </label>
+        <div>
+            <InputText @bind-Value="job.Description" class="form-control" />
+            <ValidationMessage For="@(() => job.Description)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Location: </label>
+        <div>
+            <InputText @bind-Value="job.Location" class="form-control" />
+            <ValidationMessage For="@(() => job.Location)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Salary: </label>
+        <div>
+            <InputNumber @bind-Value="job.Salary" class="form-control" />
+            <ValidationMessage For="@(() => job.Salary)" />
+        </div>
+    </div>
+
     <fieldset disabled="@Disabled" >
     <div class="form-group">
         <label>Company: </label>
         <div>
-            <InputSelect @bind-Value="job.Company.Id" class="form-control">
+            <InputSelect @bind-Value="job.CompanyID" class="form-control">
                 <option value="">-- Select Company --</option>
                 @if (Companies != null)
                 {
@@ -19,14 +48,14 @@
                     }
                 }
             </InputSelect>
-            <ValidationMessage For="@(() => job.Company.Id)" />
+            <ValidationMessage For="@(() => job.CompanyID)" />
         </div>
     </div>
 
     <div class="form-group">
         <label>Staff: </label>
         <div>
-            <InputSelect @bind-Value="job.Staff.Id" class="form-control">
+            <InputSelect @bind-Value="job.StaffID" class="form-control">
                 <option value="">-- Select Staff --</option>
                 @if (Staffs != null)
                 {
@@ -36,7 +65,7 @@
                     }
                 }
             </InputSelect>
-            <ValidationMessage For="@(() => job.Staff.Id)" />
+            <ValidationMessage For="@(() => job.StaffID)" />
         </div>
     </div>
 

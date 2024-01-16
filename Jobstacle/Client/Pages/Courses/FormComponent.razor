@@ -34,7 +34,7 @@
     <div class="form-group">
         <label>Organizer: </label>
         <div>
-            <InputSelect @bind-Value="course.Organizer.Id" class="form-control">
+            <InputSelect @bind-Value="course.OrganizerID" class="form-control">
                 <option value="">-- Select Organizer --</option>
                 @if (Organizers != null)
                 {
@@ -44,24 +44,24 @@
                     }
                 }
             </InputSelect>
-            <ValidationMessage For="@(() => course.Organizer.Id)" />
+            <ValidationMessage For="@(() => course.OrganizerID)" />
         </div>
     </div>
 
     <div class="form-group">
         <label>Staff: </label>
         <div>
-            <InputSelect @bind-Value="course.Staff.Id" class="form-control">
+            <InputSelect @bind-Value="course.StaffID" class="form-control">
                 <option value="">-- Select Staff --</option>
                 @if (Staffs != null)
                 {
-                    foreach (var customer in Staffs)
+                    foreach (var staff in Staffs)
                     {
-                        <option value="@customer.Id">@customer.Name</option>
+                        <option value="@staff.Id">@staff.Name</option>
                     }
                 }
             </InputSelect>
-            <ValidationMessage For="@(() => course.Staff.Id)" />
+            <ValidationMessage For="@(() => course.StaffID)" />
         </div>
     </div>
 

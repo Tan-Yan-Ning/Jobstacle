@@ -18,7 +18,7 @@
     <div class="form-group">
         <label>JobSeeker: </label>
         <div>
-            <InputSelect @bind-Value="courseregistration.JobSeeker.Id" class="form-control">
+            <InputSelect @bind-Value="courseregistration.JobSeekerID" class="form-control">
                 <option value="">-- Select JobSeeker --</option>
                 @if (JobSeekers != null)
                 {
@@ -28,14 +28,14 @@
                     }
                 }
             </InputSelect>
-            <ValidationMessage For="@(() => courseregistration.JobSeeker.Id)" />
+            <ValidationMessage For="@(() => courseregistration.JobSeekerID)" />
         </div>
     </div>
 
     <div class="form-group">
         <label>Course: </label>
         <div>
-            <InputSelect @bind-Value="courseregistration.Course.Id" class="form-control">
+            <InputSelect @bind-Value="courseregistration.CourseID" class="form-control">
                 <option value="">-- Select Course --</option>
                 @if (Courses != null)
                 {
@@ -45,7 +45,7 @@
                     }
                 }
             </InputSelect>
-            <ValidationMessage For="@(() => courseregistration.Course.Id)" />
+            <ValidationMessage For="@(() => courseregistration.CourseID)" />
         </div>
     </div>
 
