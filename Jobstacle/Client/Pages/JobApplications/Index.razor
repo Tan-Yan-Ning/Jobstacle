@@ -25,7 +25,7 @@ else
 	<table class="table table-responsive">
 		<thead>
 			<tr>
-				<th>Date</th>
+				<th>Application Date</th>
 				<th>Job Seeker</th>
 				<th>Job</th>
 				<th>Actions</th>
@@ -35,7 +35,7 @@ else
 			@foreach (var jobapplication in JobApplications)
 			{
 				<tr>
-					<td>@jobapplication.ApplicationDate</td>
+					<td>@jobapplication.ApplicationDate.ToString("dd MMMM yyyy")</td>
 					<td>@jobapplication.JobSeeker.Name</td>
 					<td>@jobapplication.Job.Title</td>
 					<td>

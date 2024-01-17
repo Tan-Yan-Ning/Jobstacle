@@ -4,7 +4,7 @@
 <EditForm Model="@job" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
-
+    <fieldset disabled="@Disabled" >
     <div class="form-group">
         <label>Title: </label>
         <div>
@@ -34,7 +34,6 @@
         </div>
     </div>
 
-    <fieldset disabled="@Disabled" >
     <div class="form-group">
         <label>Company: </label>
         <div>
@@ -71,8 +70,9 @@
 
 
     
-    <br />
+    
     </fieldset>
+    <br />
 
     @if (!Disabled)
     {

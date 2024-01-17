@@ -15,7 +15,7 @@ namespace Jobstacle.Server.Configurations.Entities
 					Name = "OrgY",
 					Email = "OrgY@gmail.com",
 					ContactNumber = "98765432",
-					Description= null
+					Description= "The best Y there is."
 				}
 			);
 		}

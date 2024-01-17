@@ -7,13 +7,13 @@
 
     <fieldset disabled="@Disabled" >
 
-    @* <div class="form-group">
-        <label>Registration Date: </label>
-        <div>
-            <InputText @bind-Value="@courseregistration.RegistrationDate" class="form-control" />
-            <ValidationMessage For="@(() => courseregistration.RegistrationDate)" />
+        <div class="form-group">
+            <label>Registration Date: </label>
+            <div>
+                <InputDate @bind-Value="@courseregistration.RegistrationDate" class="form-control" />
+                <ValidationMessage For="@(() => courseregistration.RegistrationDate)" />
+            </div>
         </div>
-    </div> *@
 
     <div class="form-group">
         <label>JobSeeker: </label>
@@ -50,9 +50,9 @@
     </div>
 
 
-    <br />
+    
     </fieldset>
-
+    <br />
     @if (!Disabled)
     {
         <button type="submit" class="btn btn-success btn-block">

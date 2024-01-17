@@ -6,7 +6,16 @@
     <ValidationSummary />
 
     <fieldset disabled="@Disabled" >
-    <div class="form-group">
+
+        <div class="form-group">
+            <label>Application Date: </label>
+            <div>
+                <InputDate @bind-Value="@jobapplication.ApplicationDate" class="form-control" />
+                <ValidationMessage For="@(() => jobapplication.ApplicationDate)" />
+            </div>
+        </div>
+
+        <div class="form-group">
         <label>JobSeeker: </label>
         <div>
             <InputSelect @bind-Value="jobapplication.JobSeekerID" class="form-control">
@@ -41,8 +50,9 @@
     </div>
 
 
-    <br />
+    
     </fieldset>
+    <br />
 
     @if (!Disabled)
     {

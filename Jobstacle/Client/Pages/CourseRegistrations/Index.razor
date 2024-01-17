@@ -25,9 +25,9 @@ else
 	<table class="table table-responsive">
 		<thead>
 			<tr>
+				<th>Registration Date</th>
 				<th>Job Seeker</th>
 				<th>Course</th>
-				<th>Date</th>
 				<th>Actions</th>
 			</tr>
 		</thead>
@@ -35,9 +35,9 @@ else
 			@foreach (var courseregistration in CourseRegistrations)
 			{
 				<tr>
+					<td>@courseregistration.RegistrationDate.ToString("dd MMMM yyyy")</td>
 					<td>@courseregistration.JobSeeker.Name</td>
 					<td>@courseregistration.Course.Title</td>
-					<td>@courseregistration.RegistrationDate</td>
 					<td>
 						<a href="/CourseRegistrations/view/@courseregistration.Id" class="btn btn-primary">
 							<span class="oi oi-book"></span>

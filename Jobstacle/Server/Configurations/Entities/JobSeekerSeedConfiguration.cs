@@ -15,7 +15,7 @@ namespace Jobstacle.Server.Configurations.Entities
 					Name= "John",
 					Email= "johntan@gmail.com",
 					Gender= "Male",
-					Resume= null,
+					Resume= "johntan_resume.pdf",
 					Location= "Tampines",
 					ContactNumber= "98765432"
 				}
