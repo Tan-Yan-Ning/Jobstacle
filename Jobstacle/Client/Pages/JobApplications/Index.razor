@@ -22,7 +22,7 @@
 }
 else
 {
-	<table class="table table-responsive">
+	<table class="table table-responsive" id="jobapplicationsTable">
 		<thead>
 			<tr>
 				<th>Application Date</th>
@@ -79,8 +79,13 @@ else
 		}
 	}
 
-	 public void Dispose()
-	 {
-	 	_interceptor.DisposeEvent();
-	 }
+	protected async override Task OnAfterRenderAsync(bool firstRender)
+	{
+		await js.InvokeVoidAsync("AddDataTable", "#jobapplicationsTable");
+	}
+
+	public void Dispose()
+	{
+		js.InvokeVoidAsync("DataTablesDispose", "#jobapplicationsTable");
+	}
 }

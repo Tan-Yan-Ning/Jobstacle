@@ -6,10 +6,8 @@
 @inject HttpInterceptorService _interceptor
 @implements IDisposable
 
-
-
 <h3>Companies</h3>
-<a href="/companies/create" class="btn btn-secondary">
+<a href="/companies/create" class="btn btn-secondary custom-btn">
 	<span class="oi oi-plus"></span>
 	Create New Companies
 </a>
@@ -22,7 +20,7 @@
 }
 else
 {
-	<table class="table table-responsive">
+	<table class="table table-responsive" id="companiesTable">
 		<thead>
 			<tr>
 				<th>Name</th>
@@ -65,7 +63,10 @@ else
 	{
 		_interceptor.MonitorEvent();
 		Companies = await _client.GetFromJsonAsync<List<Company>>($" {Endpoints.CompaniesEndpoint}");
+
+
 	}
+
 	async Task Delete(int companyId)
 	{
 		if (Companies != null)
@@ -81,8 +82,14 @@ else
 		}
 	}
 
+	protected async override Task OnAfterRenderAsync(bool firstRender)
+	{
+		await js.InvokeVoidAsync("AddDataTable", "#companiesTable");
+	}
+
 	public void Dispose()
 	{
-		_interceptor.DisposeEvent();
+		js.InvokeVoidAsync("DataTablesDispose", "#companiesTable");
 	}
+	
 }

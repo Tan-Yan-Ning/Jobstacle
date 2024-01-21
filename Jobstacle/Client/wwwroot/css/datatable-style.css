@@ -1,0 +1,10 @@
+/* Header Row Background Color */
+#app .dataTables_wrapper thead th {
+    background-color: #4348db;
+    color: white; 
+}
+/* Hover Effect on Rows */
+#app .dataTables_wrapper tbody tr:hover {
+    background-color: #e3d5fa;
+}
+

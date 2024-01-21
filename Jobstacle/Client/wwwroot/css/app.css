@@ -14,9 +14,16 @@ a, .btn-link {
 
 .btn-primary {
     color: #fff;
-    background-color: #1b6ec2;
+    background-color: #4348db;
     border-color: #1861ac;
 }
+
+.btn-secondary.custom-btn {
+    background-color: #4348db;
+    color: white;
+    border-color: #e3d5fa;
+}
+
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
