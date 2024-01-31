@@ -28,7 +28,7 @@ main {
         text-decoration: none;
     }
 
-        .top-row ::deep a:hover, .top-row ::deep .btn-link:hover {
+/*    .top-row ::deep a:hover, .top-row ::deep .btn-link:hover {
             text-decoration: underline;
         }
 
@@ -36,6 +36,7 @@ main {
             overflow: hidden;
             text-overflow: ellipsis;
         }
+*/
 
 @media (max-width: 640.98px) {
     .top-row:not(.auth) {
@@ -80,3 +81,24 @@ main {
         padding-right: 1.5rem !important;
     }
 }
+.nav-link {
+    text-decoration: none;
+    color: #817E7E;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    font-weight: 400;
+    word-wrap: break-word;
+    transition: color 0.3s, font-weight 0.3s;
+    width: auto;
+    margin-right: 10px;
+    top: 55px;
+}
+.nav-link:hover {
+    color: black;
+    font-weight: bold;
+}
+
+
+
+
+

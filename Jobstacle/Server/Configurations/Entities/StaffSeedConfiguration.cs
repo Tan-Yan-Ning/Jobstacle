@@ -13,6 +13,7 @@ namespace Jobstacle.Server.Configurations.Entities
                 new Staff
                 {
                     Id = 1,
+                    StaffPic= null,
                     Name = "Jonah",
                     ContactNumber = "74682746",
                     Email = "jonahliu@gmail.com",

@@ -6,11 +6,14 @@
 @inject HttpInterceptorService _interceptor
 @implements IDisposable
 
+<div style="display: flex; align-items: center;">
+<img src="css/companies.png" alt="Companies Image" style="width: 60px; height: 60px; margin-right: 10px;">
 <h3>Companies</h3>
-<a href="/companies/create" class="btn btn-secondary custom-btn">
+<a href="/companies/create" class="btn btn-secondary custom-btn" style="margin-left: 10px;">
 	<span class="oi oi-plus"></span>
 	Create New Companies
 </a>
+</div>
 <br />
 <br />
 
@@ -23,6 +26,7 @@ else
 	<table class="table table-responsive" id="companiesTable">
 		<thead>
 			<tr>
+				<th>Logo</th>
 				<th>Name</th>
 				<th>Contact Number</th>
 				<th>Email</th>
@@ -34,10 +38,39 @@ else
 			@foreach (var company in Companies)
 			{
 				<tr>
+					<td>
+						@if (company.ComLogo != null && company.ComLogo.Length > 0)
+						{
+							<img src="data:image/png;base64,@Convert.ToBase64String(company.ComLogo)" alt="Company Logo" style="max-width: 100px; max-height: 100px;" />
+						}
+						else
+						{
+							<span>No Logo</span>
+						}
+					</td>
 					<td>@company.Name</td>
 					<td>@company.ContactNumber</td>
 					<td>@company.Email</td>
-					<td>@company.Description</td>
+
+					<td>
+						<button class="btn btn-secondary" @onclick="@(() => ToggleDescription(company.Id))">
+							@if (IsDescriptionVisible(company.Id))
+							{
+								<span>Hide</span>
+							}
+							else
+							{
+								<span>Show More</span>
+							}
+						</button>
+						@if (IsDescriptionVisible(company.Id))
+						{
+							<div>
+								@company.Description
+							</div>
+						}
+					</td>
+
 					<td>
 						<a href="/Companies/view/@company.Id" class="btn btn-primary">
 							<span class="oi oi-book"></span>
@@ -55,16 +88,21 @@ else
 	</table>
 }
 
-
 @code {
 	private List<Company>? Companies;
+	private bool isDataTableInitialized = false;
+	private Dictionary<int, bool> showDescriptionStates = new Dictionary<int, bool>();
 
 	protected async override Task OnInitializedAsync()
 	{
 		_interceptor.MonitorEvent();
-		Companies = await _client.GetFromJsonAsync<List<Company>>($" {Endpoints.CompaniesEndpoint}");
+		Companies = await _client.GetFromJsonAsync<List<Company>>($"{Endpoints.CompaniesEndpoint}");
 
-
+		if (!isDataTableInitialized)
+		{
+			await js.InvokeVoidAsync("AddDataTable", "#companiesTable");
+			isDataTableInitialized = true;
+		}
 	}
 
 	async Task Delete(int companyId)
@@ -82,14 +120,25 @@ else
 		}
 	}
 
-	protected async override Task OnAfterRenderAsync(bool firstRender)
+	void ToggleDescription(int companyId)
 	{
-		await js.InvokeVoidAsync("AddDataTable", "#companiesTable");
+		if (showDescriptionStates.ContainsKey(companyId))
+		{
+			showDescriptionStates[companyId] = !showDescriptionStates[companyId];
+		}
+		else
+		{
+			showDescriptionStates.Add(companyId, true);
+		}
+	}
+
+	bool IsDescriptionVisible(int companyId)
+	{
+		return showDescriptionStates.ContainsKey(companyId) && showDescriptionStates[companyId];
 	}
 
 	public void Dispose()
 	{
 		js.InvokeVoidAsync("DataTablesDispose", "#companiesTable");
 	}
-	
 }

@@ -6,6 +6,26 @@
     <ValidationSummary />
 
     <fieldset disabled="@Disabled" >
+        <div class="form-group">
+            <label>Job Seeker Picture: </label>
+            <div>
+                @if (jobseeker.JobSeekerPic != null && jobseeker.JobSeekerPic.Length > 0)
+                {
+                    <img src="data:image/png;base64,@Convert.ToBase64String(jobseeker.JobSeekerPic)" alt="Job Seeker Picture" style="max-width: 100px; max-height: 100px;" />
+                }
+                else
+                {
+                    <span>No Logo</span>
+                }
+
+                @if (!Disabled)
+                {
+                    <InputFile OnChange="HandleFileUpload" class="form-control" />
+                }
+
+                <ValidationMessage For="@(()=>jobseeker.JobSeekerPic)" />
+            </div>
+        </div>
     <div class="form-group">
         <label>Name: </label>
         <div>
@@ -56,7 +76,7 @@
 
     @if (!Disabled)
     {
-        <button type="submit" class="btn btn-success btn-block">
+        <button type="submit" class="btn btn-secondary custom-btn">
             @ButtonText
         </button>
     }
@@ -69,7 +89,21 @@
     [Parameter] public JobSeeker? jobseeker { get; set; }
     [Parameter] public string ButtonText { get; set; } = "Save";
     [Parameter] public EventCallback OnValidSubmit { get; set; }
-
+    private async Task HandleFileUpload(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file != null)
+        {
+            using (var stream = file.OpenReadStream())
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await stream.CopyToAsync(memoryStream);
+                    jobseeker.JobSeekerPic = memoryStream.ToArray();
+                }
+            }
+        }
+    }
   
 
 }

@@ -7,12 +7,14 @@
 @implements IDisposable 
 
 
-
+<div style="display: flex; align-items: center;">
+	<img src="css/jobs.png" alt="Jobs Image" style="width: 60px; height: 60px; margin-right: 10px;">
 <h3>Jobs</h3>
-<a href="/jobs/create" class="btn btn-secondary">
+	<a href="/jobs/create" class="btn btn-secondary custom-btn" style="margin-left: 10px;">
 	<span class="oi oi-plus"></span>
 	Create New Jobs
 </a>
+</div>
 <br />
 <br />
 
@@ -39,7 +41,25 @@ else
 			{
 				<tr>
 					<td>@job.Title</td>
-					<td>@job.Description</td>
+					
+					<td>
+						<button class="btn btn-secondary" @onclick="@(() => ToggleDescription(job.Id))">
+							@if (IsDescriptionVisible(job.Id))
+							{
+								<span>Hide</span>
+							}
+							else
+							{
+								<span>Show More</span>
+							}
+						</button>
+						@if (IsDescriptionVisible(job.Id))
+						{
+							<div>
+								@job.Description
+							</div>
+						}
+					</td>
 					<td>@job.Location</td>
 					<td>@job.Salary</td>
 					<td>@job.Company.Name</td>
@@ -64,11 +84,19 @@ else
 
 @code {
 	private List<Job>? Jobs;
+	private bool isDataTableInitialized = false;
+	private Dictionary<int, bool> showDescriptionStates = new Dictionary<int, bool>();
 
 	protected async override Task OnInitializedAsync()
 	{
-		// _interceptor.MonitorEvent();
+		_interceptor.MonitorEvent();
 		Jobs = await _client.GetFromJsonAsync<List<Job>>($" {Endpoints.JobsEndpoint}");
+
+		if (!isDataTableInitialized)
+		{
+			await js.InvokeVoidAsync("AddDataTable", "#jobsTable");
+			isDataTableInitialized = true;
+		}
 	}
 	async Task Delete(int jobId)
 	{
@@ -85,10 +113,23 @@ else
 		}
 	}
 
-	protected async override Task OnAfterRenderAsync(bool firstRender)
+	void ToggleDescription(int jobId)
 	{
-		await js.InvokeVoidAsync("AddDataTable", "#jobsTable");
+		if (showDescriptionStates.ContainsKey(jobId))
+		{
+			showDescriptionStates[jobId] = !showDescriptionStates[jobId];
+		}
+		else
+		{
+			showDescriptionStates.Add(jobId, true);
+		}
 	}
+
+	bool IsDescriptionVisible(int jobId)
+	{
+		return showDescriptionStates.ContainsKey(jobId) && showDescriptionStates[jobId];
+	}
+
 
 	public void Dispose()
 	{

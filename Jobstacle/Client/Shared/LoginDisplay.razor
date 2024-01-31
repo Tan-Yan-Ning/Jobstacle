@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Components.Authorization
+﻿@*@using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject NavigationManager Navigation
 
@@ -17,5 +17,40 @@
     private void BeginLogOut()
     {
         Navigation.NavigateToLogout("authentication/logout");
+    }
+}
+*@
+
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject NavigationManager Navigation
+
+<AuthorizeView>
+    <Authorized>
+        <button class="nav-link btn btn-dark" @onclick="Profile" style="background-color: black; color: white;">Hello, @context.User.Identity?.Name!</button>
+        <button class="nav-link btn btn-dark" @onclick="BeginLogOut" style="background-color: black; color: white;">Log out</button>
+    </Authorized>
+    <NotAuthorized>
+        <button class="nav-link btn btn-dark" @onclick="Register" style="background-color: #4348db; color: white;">Register</button>
+        <button class="nav-link btn btn-dark" @onclick="Login" style="background-color: black; color: white;">Log in</button>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private void BeginLogOut()
+    {
+        Navigation.NavigateToLogout("authentication/logout");
+    }
+    private void Profile()
+    {
+        Navigation.NavigateTo("authentication/profile");
+    }
+    private void Register()
+    {
+        Navigation.NavigateTo("authentication/register");
+    }
+    private void Login()
+    {
+        Navigation.NavigateTo("authentication/login");
     }
 }

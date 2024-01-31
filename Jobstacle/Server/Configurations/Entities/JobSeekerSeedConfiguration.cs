@@ -12,6 +12,7 @@ namespace Jobstacle.Server.Configurations.Entities
 				new JobSeeker
 				{
 					Id = 1,
+					JobSeekerPic= null,
 					Name= "John",
 					Email= "johntan@gmail.com",
 					Gender= "Male",

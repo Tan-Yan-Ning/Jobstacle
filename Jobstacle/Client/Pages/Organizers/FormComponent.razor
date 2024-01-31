@@ -6,6 +6,26 @@
     <ValidationSummary />
 
     <fieldset disabled="@Disabled" >
+        <div class="form-group">
+            <label>Organizer Logo: </label>
+            <div>
+                @if (organizer.OrgLogo != null && organizer.OrgLogo.Length > 0)
+                {
+                    <img src="data:image/png;base64,@Convert.ToBase64String(organizer.OrgLogo)" alt="Organizer Logo" style="max-width: 100px; max-height: 100px;" />
+                }
+                else
+                {
+                    <span>No Logo</span>
+                }
+
+                @if (!Disabled)
+                {
+                    <InputFile OnChange="HandleFileUpload" class="form-control" />
+                }
+
+                <ValidationMessage For="@(()=>organizer.OrgLogo)" />
+            </div>
+        </div>
     <div class="form-group">
         <label>Name: </label>
         <div>
@@ -30,7 +50,7 @@
     <div class="form-group">
         <label>Description: </label>
         <div>
-            <InputText @bind-Value="organizer.Description" class="form-control" />
+            <InputTextArea @bind-Value="organizer.Description" class="form-control" />
             <ValidationMessage For="@(() => organizer.Description)" />
         </div>
     </div>
@@ -40,7 +60,7 @@
 
     @if (!Disabled)
     {
-        <button type="submit" class="btn btn-success btn-block">
+        <button type="submit" class="btn btn-secondary custom-btn">
             @ButtonText
         </button>
     }
@@ -54,6 +74,21 @@
     [Parameter] public string ButtonText { get; set; } = "Save";
     [Parameter] public EventCallback OnValidSubmit { get; set; }
 
+    private async Task HandleFileUpload(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file != null)
+        {
+            using (var stream = file.OpenReadStream())
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await stream.CopyToAsync(memoryStream);
+                    organizer.OrgLogo = memoryStream.ToArray();
+                }
+            }
+        }
+    }
   
 
 }

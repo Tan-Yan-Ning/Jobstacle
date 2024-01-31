@@ -6,7 +6,7 @@ namespace Jobstacle.Client.Static
     {
         private static readonly string Prefix = "api";
 
-        public static readonly string CompaniesEndpoint = $"{Prefix}/companies";
+		public static readonly string CompaniesEndpoint = $"{Prefix}/companies";
 		public static readonly string CoursesEndpoint = $"{Prefix}/courses";
 		public static readonly string CourseRegistrationsEndpoint = $"{Prefix}/courseregistrations";
 		public static readonly string JobApplicationsEndpoint =$"{Prefix}/jobapplications";

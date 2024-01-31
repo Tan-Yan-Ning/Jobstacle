@@ -13,6 +13,7 @@ namespace Jobstacle.Server.Configurations.Entities
                 new Company
                 {
                     Id = 1, 
+                    ComLogo = null,
                     Name = "X",
                     ContactNumber = "78646468",
                     Email = "companyX@gmail.com",

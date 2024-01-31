@@ -12,6 +12,7 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/Identity/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/Identity/css/site.css" />
+       
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
@@ -20,12 +21,16 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/Identity/css/site.css" asp-append-version="true" />
     </environment>
+    <style>
+        body {
+            background-color: #E2D5F9;
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" href="~/">Jobstacle</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -50,10 +55,15 @@
     </header>
 
     <div class="container">
+        <div style="width: 1040px; height: 500px; background: white; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 41px; padding: 20px;">
+            <img src="~/css/logo2.png" style="width: 480px; height: 334px; left: 820px; top: 120px; position:absolute" />
+        <div style="width: 500px; height: 500px">
         <partial name="_CookieConsentPartial" optional />
         <main role="main" class="pb-1">
             @RenderBody()
         </main>
+        </div>
+        </div>
     </div>
     <footer class="footer border-top pl-3 text-muted">
         <div class="container">

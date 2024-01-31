@@ -7,12 +7,15 @@
 @implements IDisposable 
 
 
-
+<div style="display: flex; align-items: center;">
+<img src="css/jobseekers.png" alt="JobSeekers Image" style="width: 60px; height: 60px; margin-right: 10px;">
 <h3>Job Seekers</h3>
-<a href="/jobseekers/create" class="btn btn-secondary">
+	<a href="/jobseekers/create" class="btn btn-secondary custom-btn" style="margin-left: 10px;">
+<link rel= "stylesheet" href="Styles.css" />
 	<span class="oi oi-plus"></span>
 	Create New JobSeekers
 </a>
+</div>
 <br />
 <br />
 
@@ -25,6 +28,7 @@ else
 	<table class="table table-responsive" id="jobseekersTable">
 		<thead>
 			<tr>
+				<th>Profile</th>
 				<th>Name</th>
 				<th>Email</th>
 				<th>Gender</th>
@@ -38,6 +42,16 @@ else
 			@foreach (var jobseeker in JobSeekers)
 			{
 				<tr>
+					<td>
+						@if (jobseeker.JobSeekerPic != null && jobseeker.JobSeekerPic.Length > 0)
+						{
+							<img src="data:image/png;base64,@Convert.ToBase64String(jobseeker.JobSeekerPic)" alt="Job Seeker Picture" style="max-width: 100px; max-height: 100px;" />
+						}
+						else
+						{
+							<span>No Logo</span>
+						}
+					</td>
 					<td>@jobseeker.Name</td>
 					<td>@jobseeker.Email</td>
 					<td>@jobseeker.Gender</td>
@@ -67,7 +81,7 @@ else
 
 	protected async override Task OnInitializedAsync()
 	{
-		// _interceptor.MonitorEvent();
+		_interceptor.MonitorEvent();
 		JobSeekers = await _client.GetFromJsonAsync<List<JobSeeker>>($" {Endpoints.JobSeekersEndpoint}");
 	}
 	async Task Delete(int jobseekerId)

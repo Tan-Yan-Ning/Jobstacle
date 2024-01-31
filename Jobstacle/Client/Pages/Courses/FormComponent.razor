@@ -18,7 +18,7 @@
     <div class="form-group">
         <label>Description: </label>
         <div>
-            <InputText @bind-Value="@course.Description" class="form-control" />
+            <InputTextArea @bind-Value="@course.Description" class="form-control" />
             <ValidationMessage For="@(() => course.Description)" />
         </div>
     </div>
@@ -72,7 +72,7 @@
 
     @if (!Disabled)
     {
-        <button type="submit" class="btn btn-success btn-block">
+        <button type="submit" class="btn btn-secondary custom-btn">
             @ButtonText
         </button>
     }

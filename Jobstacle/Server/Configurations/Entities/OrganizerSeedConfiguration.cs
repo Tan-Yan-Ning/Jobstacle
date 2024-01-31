@@ -12,6 +12,7 @@ namespace Jobstacle.Server.Configurations.Entities
 				new Organizer
 				{
 					Id = 1,
+					OrgLogo = null,
 					Name = "OrgY",
 					Email = "OrgY@gmail.com",
 					ContactNumber = "98765432",

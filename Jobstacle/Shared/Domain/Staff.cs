@@ -9,6 +9,7 @@ namespace Jobstacle.Shared.Domain
 {
     public class Staff : BaseDomainModel
     {
+        public byte[]? StaffPic { get; set; }
         [Required(ErrorMessage = "Name is required")]
 		public string? Name { get; set; }
 

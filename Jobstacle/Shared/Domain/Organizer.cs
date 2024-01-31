@@ -9,6 +9,7 @@ namespace Jobstacle.Shared.Domain
 {
     public class Organizer : BaseDomainModel
     {
+		public byte[]? OrgLogo { get; set; }
 		[Required(ErrorMessage = "Name is required")]
 		public string? Name { get; set; }
 

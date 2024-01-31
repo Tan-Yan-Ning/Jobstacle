@@ -10,7 +10,7 @@ namespace Jobstacle.Shared.Domain
     public class CourseRegistration : BaseDomainModel
     {
         [Required(ErrorMessage = "Registration Date is required")]
-        [DataType(DataType.Date)]
+		[DataType(DataType.Date)]
         public DateTime RegistrationDate { get; set; }
         [Required(ErrorMessage = "Job Seeker ID is required")]
         public int JobSeekerID { get; set; } 

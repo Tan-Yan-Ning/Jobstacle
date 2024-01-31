@@ -7,12 +7,14 @@
 @implements IDisposable 
 
 
-
+<div style="display: flex; align-items: center;">
+<img src="css/courses.png" alt="Courses Image" style="width: 60px; height: 60px; margin-right: 10px;">
 <h3>Courses</h3>
-<a href="/courses/create" class="btn btn-secondary">
+<a href="/courses/create" class="btn btn-secondary custom-btn" style="margin-left: 10px;">
 	<span class="oi oi-plus"></span>
 	Create New Courses
 </a>
+</div>
 <br />
 <br />
 
@@ -38,10 +40,29 @@ else
 			{
 				<tr>
 					<td>@course.Title</td>
-					<td>@course.Description</td>
+					
+					<td>
+						<button class="btn btn-secondary" @onclick="@(() => ToggleDescription(course.Id))">
+							@if (IsDescriptionVisible(course.Id))
+							{
+								<span>Hide</span>
+							}
+							else
+							{
+								<span>Show More</span>
+							}
+						</button>
+						@if (IsDescriptionVisible(course.Id))
+						{
+							<div>
+								@course.Description
+							</div>
+						}
+					</td>
 					<td>@course.Location</td>
 					<td>@course.Organizer.Name</td>
 					<td>@course.Staff.Name</td>
+
 					<td>
 						<a href="/Courses/view/@course.Id" class="btn btn-primary">
 							<span class="oi oi-book"></span>
@@ -62,11 +83,19 @@ else
 
 @code {
 	private List<Course>? Courses;
+	private bool isDataTableInitialized = false;
+	private Dictionary<int, bool> showDescriptionStates = new Dictionary<int, bool>();
 
 	protected async override Task OnInitializedAsync()
 	{
-		// _interceptor.MonitorEvent();
+		_interceptor.MonitorEvent();
 		Courses = await _client.GetFromJsonAsync<List<Course>>($" {Endpoints.CoursesEndpoint}");
+
+		if (!isDataTableInitialized)
+		{
+			await js.InvokeVoidAsync("AddDataTable", "#coursesTable");
+			isDataTableInitialized = true;
+		}
 	}
 	async Task Delete(int courseId)
 	{
@@ -83,9 +112,21 @@ else
 		}
 	}
 
-	protected async override Task OnAfterRenderAsync(bool firstRender)
+	void ToggleDescription(int courseId)
 	{
-		await js.InvokeVoidAsync("AddDataTable", "#coursesTable");
+		if (showDescriptionStates.ContainsKey(courseId))
+		{
+			showDescriptionStates[courseId] = !showDescriptionStates[courseId];
+		}
+		else
+		{
+			showDescriptionStates.Add(courseId, true);
+		}
+	}
+
+	bool IsDescriptionVisible(int courseId)
+	{
+		return showDescriptionStates.ContainsKey(courseId) && showDescriptionStates[courseId];
 	}
 
 	public void Dispose()

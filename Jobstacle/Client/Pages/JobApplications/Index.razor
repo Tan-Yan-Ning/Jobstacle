@@ -7,12 +7,14 @@
 @implements IDisposable 
 
 
-
+<div style="display: flex; align-items: center;">
+	<img src="css/jobapplications.png" alt="Job Application Image" style="width: 60px; height: 60px; margin-right: 10px;">
 <h3>Job Applications</h3>
-<a href="/jobapplications/create" class="btn btn-secondary">
+	<a href="/jobapplications/create" class="btn btn-secondary custom-btn" style="margin-left: 10px;">
 	<span class="oi oi-plus"></span>
 	Create New JobApplications
 </a>
+</div>
 <br />
 <br />
 
@@ -61,7 +63,7 @@ else
 
 	protected async override Task OnInitializedAsync()
 	{
-		// _interceptor.MonitorEvent();
+		_interceptor.MonitorEvent();
 		JobApplications = await _client.GetFromJsonAsync<List<JobApplication>>($" {Endpoints.JobApplicationsEndpoint}");
 	}
 	async Task Delete(int jobapplicationId)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,7 +10,9 @@ namespace Jobstacle.Shared.Domain
 {
     public class Company : BaseDomainModel
     {
-        [Required(ErrorMessage = "Name is required")]
+		
+        public byte[]? ComLogo { get; set; }
+		[Required(ErrorMessage = "Name is required")]
         public string? Name { get; set; }
         [Required]
         [DataType(DataType.PhoneNumber)]

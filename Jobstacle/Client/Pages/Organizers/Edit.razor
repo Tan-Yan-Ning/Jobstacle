@@ -3,8 +3,10 @@
 @inject NavigationManager _navManager
 
 
-<h3>Edit Organizer</h3>
-
+<div style="display: flex; align-items: center;">
+    <img src="css/organizers.png" alt="Organizers Image" style="width: 60px; height: 60px; margin-right: 10px;">
+    <h3>Edit Organizer</h3>
+</div>
 <FormComponent ButtonText="Update" OnValidSubmit="EditOrganizer" organizer="organizer" />
 
 @code {
