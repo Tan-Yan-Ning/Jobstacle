@@ -5,7 +5,7 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <fieldset disabled="@Disabled" >
+    <fieldset disabled="@Disabled">
         <div class="form-group">
             <label>Job Seeker Picture: </label>
             <div>
@@ -26,42 +26,42 @@
                 <ValidationMessage For="@(()=>jobseeker.JobSeekerPic)" />
             </div>
         </div>
-    <div class="form-group">
-        <label>Name: </label>
-        <div>
-            <InputText @bind-Value="jobseeker.Name" class="form-control"/>
-            <ValidationMessage For="@(() => jobseeker.Name)" />
+        <div class="form-group">
+            <label>Name: </label>
+            <div>
+                <InputText @bind-Value="jobseeker.Name" class="form-control" />
+                <ValidationMessage For="@(() => jobseeker.Name)" />
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label>Email: </label>
-        <div>
-            <InputText @bind-Value="jobseeker.Email" class="form-control" />
-            <ValidationMessage For="@(() => jobseeker.Email)" />
+        <div class="form-group">
+            <label>Email: </label>
+            <div>
+                <InputText @bind-Value="jobseeker.Email" class="form-control" />
+                <ValidationMessage For="@(() => jobseeker.Email)" />
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label>Gender: </label>
-        <div>
-            <InputText @bind-Value="jobseeker.Gender" class="form-control" />
-            <ValidationMessage For="@(() => jobseeker.Gender)" />
+        <div class="form-group">
+            <label>Gender: </label>
+            <div>
+                <InputText @bind-Value="jobseeker.Gender" class="form-control" />
+                <ValidationMessage For="@(() => jobseeker.Gender)" />
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label>Resume: </label>
-        <div>
-            <InputText @bind-Value="jobseeker.Resume" class="form-control" />
-            <ValidationMessage For="@(() => jobseeker.Resume)" />
+        <div class="form-group">
+            <label>Resume: </label>
+            <div>
+                <InputText @bind-Value="jobseeker.Resume" class="form-control" />
+                <ValidationMessage For="@(() => jobseeker.Resume)" />
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label>Location: </label>
-        <div>
-            <InputText @bind-Value="jobseeker.Location" class="form-control" />
-            <ValidationMessage For="@(() => jobseeker.Location)" />
+        <div class="form-group">
+            <label>Location: </label>
+            <div>
+                <InputText @bind-Value="jobseeker.Location" class="form-control" />
+                <ValidationMessage For="@(() => jobseeker.Location)" />
+            </div>
         </div>
-    </div>
         <div class="form-group">
             <label>Contact Number: </label>
             <div>
@@ -70,7 +70,7 @@
             </div>
         </div>
 
-    
+
     </fieldset>
     <br />
 
@@ -104,6 +104,6 @@
             }
         }
     }
-  
+
 
 }

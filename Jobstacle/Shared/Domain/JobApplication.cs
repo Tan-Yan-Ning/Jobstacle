@@ -10,7 +10,9 @@ namespace Jobstacle.Shared.Domain
     public class JobApplication : BaseDomainModel
     {
         [Required(ErrorMessage = "Application Date is required")]
-		[DataType(DataType.Date)]
+        [FutureDate(ErrorMessage = "Application Date must be from today onwards")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime ApplicationDate { get; set; }
 
         [Required(ErrorMessage = "Job Seeker Id is required")]

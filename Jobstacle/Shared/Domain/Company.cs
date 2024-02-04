@@ -10,7 +10,6 @@ namespace Jobstacle.Shared.Domain
 {
     public class Company : BaseDomainModel
     {
-		
         public byte[]? ComLogo { get; set; }
 		[Required(ErrorMessage = "Name is required")]
         public string? Name { get; set; }
